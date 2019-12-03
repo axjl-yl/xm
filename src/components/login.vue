@@ -80,6 +80,10 @@
         yzm: {img: ''}
 
       }
+    },
+    created:function () {
+      this.$emit('header', false);
+      this.$emit('footer', false);
     }
 
   }

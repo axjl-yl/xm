@@ -85,7 +85,9 @@
           <div style="font-size: 20px">已有淘二淘账号：</div>
         </el-row>
         <el-row style="top: 200px">
-          <div style="font-size:20px;color: #11CD6E;"><router-link :to="{name:'login'}" style="text-decoration: none">立即登陆</router-link></div>
+          <div style="font-size:20px;color: #11CD6E;">
+            <router-link :to="{name:'login'}" style="text-decoration: none">立即登陆</router-link>
+          </div>
         </el-row>
       </el-col>
       <!--右部分-->
@@ -110,6 +112,9 @@
         yzm: {img: ''}
 
       }
+    }, created: function () {
+      this.$emit('header', false);
+      this.$emit('footer', false);
     }
 
   }

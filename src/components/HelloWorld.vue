@@ -1,5 +1,6 @@
 <template xmlns:el-col="http://www.w3.org/1999/html">
   <div id="Container">
+    <router-view></router-view>
     <el-row>
       <el-col :span="6">
         <div class="grid-content bg-purple">
@@ -176,6 +177,10 @@
       </el-col>
     </el-row>
   </div>
+
+  <!--尾部-->
+
+
 </template>
 
 <script>
@@ -196,6 +201,9 @@
         }],
         goods: []
       }
+    }, created:function () {
+      this.$emit('header', true);
+      this.$emit('footer', true);
     }
   }
 </script>
