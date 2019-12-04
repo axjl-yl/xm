@@ -26,7 +26,7 @@
           <div class="form">
             <el-form :label-position="labelPosition" label-width="80px" :model="user">
               <el-form-item>
-                <el-input v-model="user.tel" placeholder="请输入手机号/邮箱"></el-input>
+                <el-input v-model.number="user.tel" placeholder="请输入手机号/邮箱"></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -71,19 +71,37 @@
 
 <script>
   import ElColorPickerDropdown from "element-ui/packages/color-picker/src/components/picker-dropdown";
+  import axios from "axios"
 
   export default {
     name: "login",
     data() {
       return {
-        user: {tel: '', yzm: '', telyam: '', pass: ''},
+        user: {},
         yzm: {img: ''}
 
       }
     },
-    created:function () {
+    created: function () {
       this.$emit('header', false);
       this.$emit('footer', false);
+    }, methods: {
+      onSubmit: function () {
+        /*alert(this.user.tel); */
+        var params = new URLSearchParams();
+        params.append('tel', this.user.tel);
+        params.append('pass', this.user.pass)
+        axios.post("http://localhost:8000/login", params).then(function (res) {
+          alert(res.data.success);
+          if (res.data.success=='true') {
+            alert("hello");
+          this.$router.push('/');
+
+          } else {
+            alert(res.data.error);
+          }
+        })
+      }
     }
 
   }

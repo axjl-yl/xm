@@ -53,9 +53,9 @@
         <div class="grid-content bg-purple-light">
           <div class="Shuffling">
             <!--<span class="demonstration">Click 指示器触发</span>-->
-            <el-carousel trigger="click" height="250px">
+            <el-carousel trigger="click" height="200px">
               <el-carousel-item v-for="(item,index) in imgs" :key="index">
-                <img :src=item.img style="width: 600px;height: 200px ;border-radius:5px">
+                <img :src=item.pic style="width: 600px;height: 200px ;border-radius:5px">
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -152,7 +152,8 @@
                 </div>
               </el-col>
               <el-col :span="24">
-                <div style="color: #11CD6E;size: 50px;width: auto;border: #000 solid 1px;height: 50px;line-height: 50px">
+                <div
+                  style="color: #11CD6E;size: 50px;width: auto;border: #000 solid 1px;height: 50px;line-height: 50px">
                   大学生二手网
                 </div>
               </el-col>
@@ -184,26 +185,24 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'HelloWorld',
     data() {
       return {
         msg: 'Welcome to Your Vue.js App',
-        imgs: [{
-          id: 0,
-          img: "http://res.new.taoertao.com/upload/goods/201911/upload_f4aff76a2d23404f8eb96761fc74013b.jpg?imageView2/1/w/500/h/500/q/100"
-        }, {
-          id: 1,
-          img: "http://res.new.taoertao.com/upload/goods/20195/upload_96723df65b54ea3fd3a0ebce78185c9f.jpg?imageView2/1/w/500/h/500/q/100"
-        }, {
-          id: 2,
-          img: "http://res.new.taoertao.com/upload/goods/201911/upload_f4aff76a2d23404f8eb96761fc74013b.jpg?imageView2/1/w/500/h/500/q/100"
-        }],
+        imgs: [],
         goods: []
       }
-    }, created:function () {
+    }, created: function () {
       this.$emit('header', true);
       this.$emit('footer', true);
+    }, metods: {
+    }, mounted() {
+      var _this = this;
+      axios.get("http://localhost:8000/lbt").then(function (res) {
+        _this.imgs = res.data;
+      });
     }
   }
 </script>

@@ -39,9 +39,9 @@
 
                 <el-row>
                   <el-col :span="12">
-                    <el-input v-model="user.rzm" placeholder="请输入图形验证码"></el-input>
+                    <el-input v-model="user.yzm" placeholder="请输入图形验证码"></el-input>
                   </el-col>
-                  <el-col :span="12">图形验证码</el-col>
+                  <el-col :span="12"><img :src=imgurl @click="getVerificode"></el-col>
                 </el-row>
               </el-form-item>
               <el-form-item>
@@ -103,18 +103,37 @@
 
 <script>
   import ElColorPickerDropdown from "element-ui/packages/color-picker/src/components/picker-dropdown";
+  import axios from 'axios'
 
   export default {
     name: "registered",
     data() {
       return {
         user: {tel: '', yzm: '', telyam: '', pass: ''},
-        yzm: {img: ''}
-
+        yzm: {img: ''},
+        dxyzm: {},
+        imgurl: 'http://localhost:8000/getVerifiCode',
       }
     }, created: function () {
       this.$emit('header', false);
       this.$emit('footer', false);
+    }, methods: {
+      getVerificode: function () {
+        var num = Math.ceil(Math.random() * 10);//生成一个随机数（防止缓存）
+        this.imgurl = "http://localhost:8000/getVerifiCode?" + num;
+      },
+      onSubmit: function () {
+        alert(this.user.yzm);
+        alert(this.user.telyam);
+        var params = new URLSearchParams();
+        params.append("tel", this.user.tel);
+        params.append("yzm", this.user.yzm);
+        params.append("telyam", this.user.telyam);
+        params.append("pass", this.user.pass)
+        axios.post("http://localhost:8000/regist",params).then(function (res) {
+          alert(res.data);
+        })
+      }
     }
 
   }
