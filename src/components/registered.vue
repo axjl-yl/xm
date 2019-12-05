@@ -126,6 +126,14 @@
         this.imgurl = "http://localhost:8000/getVerifiCode?" + num;
       },
       sendcode: function () {
+        if (this.user.tel == null) {
+          alert("手机号必填");
+          return false;
+        }
+        if (!(/^1[34578]\d{9}$/.test(this.user.tel))){
+          alert("手机号格式不正确");
+          return false;
+        }
         var params = new URLSearchParams();
         params.append("tel", this.user.tel);
         axios.defaults.withCredentials = true;
@@ -136,7 +144,6 @@
       onSubmit: function () {
         if (this.user.tel == null) {
           alert("手机号必填");
-
           return false;
         }
         if (!(/^1[34578]\d{9}$/.test(this.user.tel))){
@@ -172,6 +179,7 @@
         axios.post("http://localhost:8000/regist", params).then(function (res) {
           if (res.data.success == 'true') {
             alert("hello");
+            this.$router.resolve({name:'login'})
             this.$router.push('/login');
           } else {
             alert(res.data.error);

@@ -110,7 +110,7 @@
           alert("手机号格式不正确");
           return false;
         }
-        if (this.pass == null) {
+        if (this.user.pass == null) {
           alert("密码必填");
           return false;
         }
@@ -122,7 +122,8 @@
             alert(res.data.success);
             if (res.data.success == 'true') {
               alert("hello");
-              this.$router.push('/');
+              this.$router.push({naem:'topsearch'});
+              //this.$router.push({path:'/'});
             } else {
               alert(res.data.error);
             }
