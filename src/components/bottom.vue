@@ -11,11 +11,8 @@
         <img
           src="https://gss2.bdstatic.com/-fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=ffed7b946b09c93d07f209f1a7069fe1/0b46f21fbe096b63c0de6fca00338744eaf8ac60.jpg"
           style="height: 20px;width: 20px;"/>
-
         浙公网安备 33011802000633号 商务邮箱：584845663@qq.com
         <img src="https://webscan.360.cn/img/logo_verify.png" style="margin-right: 100px"/></p>
-
-
     </div>
   </div>
 </template>

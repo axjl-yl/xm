@@ -3,9 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import registered from '@/components/registered'
 import login from '@/components/login'
-import toplist from '@/components/toplist'
 import topsearch from '@/components/topsearch'
-import bottom from '@/components/bottom'
 
 Vue.use(Router)
 

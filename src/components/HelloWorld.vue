@@ -53,7 +53,7 @@
         <div class="grid-content bg-purple-light">
           <div class="Shuffling">
             <!--<span class="demonstration">Click 指示器触发</span>-->
-            <el-carousel trigger="click" height="200px">
+            <el-carousel trigger="click" height="2 00px">
               <el-carousel-item v-for="(item,index) in imgs" :key="index">
                 <img :src=item.pic style="width: 600px;height: 200px ;border-radius:5px">
               </el-carousel-item>

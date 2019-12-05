@@ -34,9 +34,7 @@
               <el-form-item>
                 <el-input v-model="user.tel" placeholder="请输入常用手机号"></el-input>
               </el-form-item>
-
               <el-form-item>
-
                 <el-row>
                   <el-col :span="12">
                     <el-input v-model="user.yzm" placeholder="请输入图形验证码"></el-input>
@@ -46,26 +44,25 @@
               </el-form-item>
               <el-form-item>
 
-
                 <el-row>
                   <el-col :span="12">
                     <el-input v-model="user.telyam" placeholder="请输入短信验证码"></el-input>
                   </el-col>
                   <el-col :span="12">
                     <button
-                      style="background-color: #11CD6E ;color: #fff;width: 100%;height: 100%;border: solid 10px #11CD6E;font-size: 15px">
+                      style="background-color: #11CD6E ;color: #fff;width: 100%;height: 100%;border: solid 10px #11CD6E;font-size: 15px"
+                      @click="sendcode">
                       获取验证码
                     </button>
                   </el-col>
                 </el-row>
               </el-form-item>
               <el-form-item>
-                <el-input v-model="user.pass" placeholder="请输入密码"></el-input>
+                <el-input v-model="user.pass" placeholder="请输入密码" show-password="true"></el-input>
               </el-form-item>
               <el-row>
-
                 <el-col :span="24">
-                  <el-checkbox/>
+                  <el-checkbox v-model="oncheck"/>
                   我已阅读并同意《淘二淘用户协议》
                 </el-col>
               </el-row>
@@ -73,6 +70,10 @@
                 <el-row style="top: 20px">
                   <el-button type="primary" @click="onSubmit" style="width: 100%;background-color: #11CD6E;">注册
                   </el-button>
+
+
+
+
                 </el-row>
               </el-form-item>
             </el-form>
@@ -109,10 +110,12 @@
     name: "registered",
     data() {
       return {
-        user: {tel: '', yzm: '', telyam: '', pass: ''},
+        user: {},
         yzm: {img: ''},
         dxyzm: {},
         imgurl: 'http://localhost:8000/getVerifiCode',
+        oncheck: false,
+        error:'1234'
       }
     }, created: function () {
       this.$emit('header', false);
@@ -122,16 +125,57 @@
         var num = Math.ceil(Math.random() * 10);//生成一个随机数（防止缓存）
         this.imgurl = "http://localhost:8000/getVerifiCode?" + num;
       },
+      sendcode: function () {
+        var params = new URLSearchParams();
+        params.append("tel", this.user.tel);
+        axios.defaults.withCredentials = true;
+        axios.post("http://localhost:8000/sendcode", params).then(function (res) {
+          alert(res.data);
+        })
+      },
       onSubmit: function () {
-        alert(this.user.yzm);
-        alert(this.user.telyam);
+        if (this.user.tel == null) {
+          alert("手机号必填");
+
+          return false;
+        }
+        if (!(/^1[34578]\d{9}$/.test(this.user.tel))){
+          alert("手机号格式不正确");
+          return false;
+        }
+        if (this.user.yzm == null) {
+          alert("验证码必填");
+          return false;
+        }
+        if (this.user.telyam == null) {
+          alert("手机验证码必填");
+          return false;
+        }
+        if (this.user.pass == null) {
+          alert("密码必填");
+          return false;
+        }
+        if (this.user.pass.toString().length < 6) {
+          alert("密码至少为6位");
+          return false;
+        }
+        if (this.oncheck == false) {
+          alert("请勾选用户协议");
+          return false;
+        }
         var params = new URLSearchParams();
         params.append("tel", this.user.tel);
         params.append("yzm", this.user.yzm);
-        params.append("telyam", this.user.telyam);
-        params.append("pass", this.user.pass)
-        axios.post("http://localhost:8000/regist",params).then(function (res) {
-          alert(res.data);
+        params.append("telyzm", this.user.telyam);
+        params.append("pass", this.user.pass);
+        axios.defaults.withCredentials = true;
+        axios.post("http://localhost:8000/regist", params).then(function (res) {
+          if (res.data.success == 'true') {
+            alert("hello");
+            this.$router.push('/login');
+          } else {
+            alert(res.data.error);
+          }
         })
       }
     }
